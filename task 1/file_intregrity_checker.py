@@ -24,3 +24,16 @@ def save_hashes(directory, output_file, hash_algorithm='sha256'):
     
     with open(output_file, 'w') as f:
         json.dump(file_hashes, f, indent=4)
+
+if __name__ == "__main__":
+    target_url = input("Enter target URL (with http/https): ").strip()
+
+    try:
+        response = requests.get(target_url)
+        if response.status_code == 200:
+            scan_xss(target_url)
+            scan_sql_injection(target_url)
+        else:
+            print("[-] Unable to reach the target URL.")
+    except requests.exceptions.RequestException as e:
+        print(f"[-] Error: {e}")
